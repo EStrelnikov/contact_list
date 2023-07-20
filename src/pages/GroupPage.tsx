@@ -5,15 +5,15 @@ import { ContactDto } from 'src/types/dto/ContactDto'
 import { GroupContactsCard } from 'src/components/GroupContactsCard'
 import { Empty } from 'src/components/Empty'
 import { ContactCard } from 'src/components/ContactCard'
-import { useAppSelector } from 'src/store'
-import { getContactsList } from 'src/store/contacts'
-import { getGroupById } from 'src/store/groups'
+import {observer} from "mobx-react-lite";
+import {groupsStore} from "src/storeMobx/groupsStore";
+import {contactsStore} from "src/storeMobx/contactsStore";
 
-export const GroupPage = () => {
+export const GroupPage = observer(() => {
   const { groupId } = useParams<{ groupId: string }>()
-  const contacts = useAppSelector(getContactsList())
+  const contacts = contactsStore.contacts
   const [groupContacts, setGroupContacts] = useState<ContactDto[]>()
-  const group = useAppSelector(getGroupById(groupId || ''))
+  const group = groupsStore.getGroupById(groupId || '')
 
   useEffect(() => {
     if (group) {
@@ -58,4 +58,4 @@ export const GroupPage = () => {
         )}
       </Row>
   )
-}
+})

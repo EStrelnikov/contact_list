@@ -2,14 +2,14 @@ import { Col, Row } from 'react-bootstrap'
 import { ContactCard } from 'src/components/ContactCard'
 import { FilterForm, FilterFormValues } from 'src/components/FilterForm'
 import { ContactDto } from 'src/types/dto/ContactDto'
-import { useAppSelector } from 'src/store'
-import { getContactsList } from 'src/store/contacts'
-import { getGroupsList } from 'src/store/groups'
 import { useEffect, useState } from 'react'
+import {contactsStore} from "src/storeMobx/contactsStore";
+import {observer} from "mobx-react-lite";
+import {groupsStore} from "src/storeMobx/groupsStore";
 
-export const ContactListPage = () => {
-  const contacts = useAppSelector(getContactsList())
-  const groups = useAppSelector(getGroupsList())
+export const ContactListPage = observer(() => {
+  const contacts = contactsStore.contacts;
+  const groups = groupsStore.groups;
   const [filteredContacts, setFilteredContacts] = useState<ContactDto[]>([])
 
   useEffect(() => {
@@ -61,4 +61,4 @@ export const ContactListPage = () => {
         </Col>
       </Row>
   )
-}
+})

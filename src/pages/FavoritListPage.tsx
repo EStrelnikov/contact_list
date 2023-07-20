@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { ContactCard } from 'src/components/ContactCard'
 import { ContactDto } from 'src/types/dto/ContactDto'
-import { useAppSelector } from 'src/store'
-import { getContactsList } from 'src/store/contacts'
-import { getFavoritesList } from 'src/store/favorites'
+import {contactsStore} from "src/storeMobx/contactsStore";
+import {favoritesStore} from "src/storeMobx/favoritesStrore";
+import {observer} from "mobx-react-lite";
 
-export const FavoritListPage = () => {
+export const FavoritListPage = observer(() => {
   const [favoritesContacts, setFavoritesContacts] = useState<ContactDto[]>([])
-  const contacts = useAppSelector(getContactsList())
-  const favorites = useAppSelector(getFavoritesList())
+  const contacts = contactsStore.contacts;
+  const favorites = favoritesStore.favorites;
 
   useEffect(() => {
     const favList = contacts.filter((contact) =>
@@ -27,4 +27,4 @@ export const FavoritListPage = () => {
         ))}
       </Row>
   )
-}
+})
